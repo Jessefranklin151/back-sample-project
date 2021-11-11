@@ -1,5 +1,6 @@
 package br.com.jesse.sample.enumerations;
 
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 public enum ErrorMessages {

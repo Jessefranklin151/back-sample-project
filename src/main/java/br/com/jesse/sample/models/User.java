@@ -37,6 +37,14 @@ public class User implements UserDetails {
     public User(String name, String email, UserStatus status) {
         this.name = name;
         this.email = email;
+        this.status = status;
+    }
+
+    public User(String name, String email, UserStatus status, String password) {
+        this.name = name;
+        this.email = email;
+        this.status = status;
+        this.password = password;
     }
 
     @Override

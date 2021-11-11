@@ -1,8 +1,9 @@
 package br.com.jesse.sample.security;
 
 import br.com.jesse.sample.dtos.CredentialsDTO;
+import br.com.jesse.sample.models.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.catalina.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -20,8 +21,9 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     private JWTUtil jwtUtil;
 
-    public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
+    public JWTAuthenticationFilter(AuthenticationManager authenticationManager, JWTUtil jwtUtil) {
         this.authenticationManager = authenticationManager;
+        this.jwtUtil = jwtUtil;
     }
 
     @Override
@@ -45,6 +47,5 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         resp.addHeader(SecurityConstants.HEADER, SecurityConstants.TOKEN_PREFIX + token);
         resp.addHeader(SecurityConstants.HEADER_EXPOSURE, SecurityConstants.HEADER);
     }
-
 
 }
