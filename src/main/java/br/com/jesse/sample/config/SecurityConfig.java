@@ -1,9 +1,5 @@
 package br.com.jesse.sample.config;
 
-import br.com.jesse.sample.security.JWTAuthenticationFilter;
-import br.com.jesse.sample.security.JWTAuthorizationFilter;
-import br.com.jesse.sample.security.JWTUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -12,6 +8,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import br.com.jesse.sample.security.JWTAuthenticationFilter;
+import br.com.jesse.sample.security.JWTAuthorizationFilter;
+import br.com.jesse.sample.security.JWTUtil;
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
