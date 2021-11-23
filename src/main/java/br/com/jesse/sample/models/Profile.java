@@ -1,30 +1,27 @@
 package br.com.jesse.sample.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
-import org.springframework.security.core.GrantedAuthority;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @AllArgsConstructor
 @Data
 @NoArgsConstructor
 @Entity
-public class Profile implements GrantedAuthority {
+@Table(name = "profiles")
+public class Profile {
 
-	@Id
+    @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
+
     private String name;
 
-    @Override
-    public String getAuthority() {
-        return name;
-    }
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Permission> permissions = new HashSet<>();
+
 }

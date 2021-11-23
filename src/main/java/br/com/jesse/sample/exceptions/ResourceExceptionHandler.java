@@ -16,10 +16,10 @@ public class ResourceExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     protected ResponseEntity<StandardError> handleDataIntegrityViolation(DataIntegrityViolationException e, HttpServletRequest request) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(StandardError.builder()
                         .timeStamp(System.currentTimeMillis())
-                        .status(HttpStatus.BAD_REQUEST.value())
+                        .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
                         .error(ErrorMessages.ER0001.getMessage())
                         .message(ErrorMessages.EM0001.getMessage())
                         .path(request.getRequestURI())

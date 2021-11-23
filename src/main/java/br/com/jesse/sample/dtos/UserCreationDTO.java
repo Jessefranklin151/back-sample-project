@@ -17,8 +17,4 @@ public class UserCreationDTO {
 
 	private String password;
 
-	public User toUser() {
-		return new User(name, email, UserStatus.ACTIVE);
-	}
-
 }

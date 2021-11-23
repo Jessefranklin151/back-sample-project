@@ -1,8 +1,12 @@
 package br.com.jesse.sample.dtos;
 
+import br.com.jesse.sample.models.Profile;
 import br.com.jesse.sample.models.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -14,10 +18,6 @@ public class UserDTO {
 
 	private String email;
 
-	public UserDTO(User user) {
-		this.id = user.getId();
-		this.name = user.getName();
-		this.email = user.getEmail();
-	}
+	private List<ProfileDTO> profile = new ArrayList<>();
 
 }

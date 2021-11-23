@@ -1,25 +1,24 @@
 package br.com.jesse.sample.models;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
 import br.com.jesse.sample.enumerations.UserStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
+import javax.persistence.*;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "users")
 public class User implements UserDetails {
+	private static final long serialVersionUID = -8186669329140906037L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -34,6 +33,9 @@ public class User implements UserDetails {
 
 	private String password;
 
+	@ManyToMany(fetch = FetchType.EAGER)
+	private Set<Profile> profiles = new HashSet<>();
+
 	public User(String name, String email, UserStatus status) {
 		this.name = name;
 		this.email = email;
@@ -47,9 +49,24 @@ public class User implements UserDetails {
 		this.password = password;
 	}
 
+	public User(String name, String email, UserStatus status, String password, HashSet<Profile> profiles) {
+		this.name = name;
+		this.email = email;
+		this.status = status;
+		this.password = password;
+		this.profiles = profiles;
+	}
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return null;
+		Collection<GrantedAuthority> authorities = new ArrayList<>();
+		for (Profile profile: profiles) {
+			authorities.add(new SimpleGrantedAuthority(profile.getName().toUpperCase(Locale.ROOT)));
+			for (Permission permission: profile.getPermissions()) {
+				authorities.add(new SimpleGrantedAuthority(permission.getAuthority().toUpperCase(Locale.ROOT)));
+			}
+		}
+		return authorities;
 	}
 
 	@Override

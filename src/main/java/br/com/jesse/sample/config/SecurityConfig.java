@@ -1,6 +1,7 @@
 package br.com.jesse.sample.config;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -28,14 +29,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
-        http.cors().and().csrf().disable().authorizeRequests()
+        http.headers().frameOptions().disable();
+        http.cors().and().csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/h2-console/**").permitAll()
                 .antMatchers("/public/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/user").hasRole("ADMIN")
+                .antMatchers(HttpMethod.PUT, "/user").hasAnyAuthority("UPDATE_USER")
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil))
                 .addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil, userDetailsService))
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
     }
 
     @Bean

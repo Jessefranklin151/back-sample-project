@@ -1,18 +1,15 @@
 package br.com.jesse.sample.controllers;
 
+import br.com.jesse.sample.dtos.UserCreationDTO;
 import br.com.jesse.sample.dtos.UserDTO;
+import br.com.jesse.sample.dtos.UserUpdateDTO;
 import br.com.jesse.sample.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("public/user")
+@RequestMapping("user")
 public class UserController {
 
     private final UserService userService;
@@ -21,14 +18,20 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping
-    public ResponseEntity<List<UserDTO>> getUsers() {
-        return new ResponseEntity<>(userService.getUsers(), HttpStatus.OK);
+    @PostMapping
+    public ResponseEntity<UserDTO> createUser(@RequestBody UserCreationDTO dto) {
+        return new ResponseEntity<>(userService.createUser(dto), HttpStatus.CREATED);
     }
 
-    @GetMapping("{id}")
-    public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
-        return new ResponseEntity<>(userService.getUserById(id), HttpStatus.OK);
+    @PutMapping("{id}")
+    public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @RequestBody UserUpdateDTO dto) {
+        return new ResponseEntity<>(userService.updateUser(id, dto), HttpStatus.OK);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+        userService.disableUser(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

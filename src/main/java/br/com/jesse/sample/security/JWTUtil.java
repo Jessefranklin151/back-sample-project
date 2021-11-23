@@ -34,7 +34,7 @@ public class JWTUtil {
         }
     }
 
-    public boolean tokenValido(String token) {
+    public boolean isTokenValid(String token) {
         Claims claims = getClaims(token);
         if (claims != null) {
             String username = claims.getSubject();
