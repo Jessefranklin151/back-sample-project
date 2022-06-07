@@ -49,11 +49,10 @@ public class UserService {
         String password = pe.encode(dto.getPassword());
         User user = new User(dto.getName(), dto.getEmail(), UserStatus.ACTIVE, password);
         user = userRepository.save(user);
-        Profile p = new Profile();
-        p.setName("USER");
-        p = profileService.createProfileIfNotExists(p);
-        HashSet profiles = new HashSet();
-        profiles.add(p);
+        Profile profile = new Profile();
+        profile.setName("USER");
+        profile = profileService.createProfileIfNotExists(profile);
+        user.getProfiles().add(profile);
         userRepository.save(user);
         return Mapper.toUserDTO(user);
     }

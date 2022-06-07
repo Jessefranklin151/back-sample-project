@@ -43,20 +43,20 @@ public class SampleApplication {
 
             String password = "123456";
             UserCreationDTO admin = new UserCreationDTO("Jessé", "jesseoito@gmail.com", password);
-//
-//            String password2 = "123456";
-//            UserCreationDTO admin2 = new UserCreationDTO("Jessica", "jessica@gmail.com", password2);
-//
-//            String password3 = "123456";
-//            UserCreationDTO commonUser = new UserCreationDTO("Heldao", "heldao@gmail.com", password3);
-//
+
+            String password2 = "123456";
+            UserCreationDTO admin2 = new UserCreationDTO("Jessica", "jessica@gmail.com", password2);
+
+            String password3 = "123456";
+            UserCreationDTO commonUser = new UserCreationDTO("Heldao", "heldao@gmail.com", password3);
+
             UserDTO user = userService.createUser(admin);
-//            UserDTO user1 = userService.createUser(commonUser);
-//            UserDTO user2 = userService.createUser(admin2);
-//
+            UserDTO user1 = userService.createUser(commonUser);
+            UserDTO user2 = userService.createUser(admin2);
+
             userService.updateUserProfileByUserID(user.getId(), adminProfile);
-//            userService.updateUserProfileByUserID(user1.getId(), userProfile);
-//            userService.updateUserProfileByUserID(user2.getId(), adminProfile);
+            userService.updateUserProfileByUserID(user1.getId(), userProfile);
+            userService.updateUserProfileByUserID(user2.getId(), adminProfile);
         };
     }
 
